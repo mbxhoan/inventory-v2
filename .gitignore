@@ -1,6 +1,6 @@
 node_modules
 .next
-.vercel
+# .vercel
 .env
 .env.local
 .env.*.local
@@ -8,5 +8,5 @@ node_modules
 coverage
 dist
 .turbo
-supabase/.branches
-supabase/.temp
+
+next-env.d.ts
