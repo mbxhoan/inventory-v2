@@ -1,0 +1,47 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { apiJson } from '@/lib/api';
+
+export default function LoginPage() {
+  const router = useRouter();
+  const [email, setEmail] = useState('manager@inventory.local');
+  const [pin, setPin] = useState('123456');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+    try {
+      await apiJson('/api/auth/login', { method: 'POST', body: JSON.stringify({ email, pin }) });
+      router.replace('/dashboard');
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div className="login-wrap">
+      <form className="card login-card grid" onSubmit={submit}>
+        <div className="page-title">
+          <h1>Inventory</h1>
+          <p>Kiểm kê thời đại mới — đăng nhập web quản lý.</p>
+        </div>
+        {error ? <div className="error">{error}</div> : null}
+        <label className="label">Email
+          <input className="input" value={email} onChange={(e) => setEmail(e.target.value)} />
+        </label>
+        <label className="label">Mã PIN
+          <input className="input" type="password" value={pin} onChange={(e) => setPin(e.target.value)} />
+        </label>
+        <button className="btn" disabled={loading}>{loading ? 'Đang đăng nhập...' : 'Đăng nhập'}</button>
+        <div className="notice">Demo: manager@inventory.local / 123456</div>
+      </form>
+    </div>
+  );
+}

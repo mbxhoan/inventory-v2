@@ -1,0 +1,68 @@
+:root {
+  --bg: #f6f7fb;
+  --panel: #ffffff;
+  --panel-soft: #f1f5f9;
+  --text: #0f172a;
+  --muted: #64748b;
+  --line: #e2e8f0;
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --danger: #dc2626;
+  --success: #16a34a;
+  --warning: #d97706;
+  --radius: 18px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--text); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+.shell { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+.sidebar { background: #0f172a; color: white; padding: 24px; position: sticky; top: 0; height: 100vh; }
+.brand { font-size: 18px; font-weight: 800; line-height: 1.25; margin-bottom: 24px; }
+.brand span { display: block; color: #93c5fd; font-size: 13px; font-weight: 600; margin-top: 4px; }
+.nav { display: grid; gap: 8px; }
+.nav a, .nav button { border: 0; background: transparent; color: #cbd5e1; padding: 12px 14px; border-radius: 12px; text-align: left; display: flex; align-items: center; gap: 10px; }
+.nav a:hover, .nav button:hover, .nav a.active { background: rgba(255,255,255,.10); color: #fff; }
+.main { padding: 26px; }
+.topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; gap: 16px; }
+.page-title h1 { margin: 0; font-size: 28px; letter-spacing: -0.03em; }
+.page-title p { margin: 6px 0 0; color: var(--muted); }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; box-shadow: 0 8px 30px rgba(15,23,42,.04); }
+.grid { display: grid; gap: 16px; }
+.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.stat { display: flex; flex-direction: column; gap: 6px; }
+.stat strong { font-size: 28px; }
+.stat span { color: var(--muted); font-size: 14px; }
+.btn { border: 1px solid transparent; background: var(--primary); color: white; padding: 10px 14px; border-radius: 12px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.btn:hover { background: var(--primary-dark); }
+.btn.secondary { background: white; color: var(--text); border-color: var(--line); }
+.btn.danger { background: var(--danger); }
+.btn.success { background: var(--success); }
+.btn:disabled { opacity: .55; cursor: not-allowed; }
+.input, .select, .textarea { width: 100%; border: 1px solid var(--line); background: white; border-radius: 12px; padding: 11px 12px; outline: none; }
+.input:focus, .select:focus, .textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,.12); }
+.label { display: grid; gap: 7px; font-size: 13px; font-weight: 700; color: #334155; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 12px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+th { color: #475569; font-size: 13px; background: #f8fafc; }
+.badge { display: inline-flex; align-items: center; border-radius: 999px; padding: 5px 10px; font-size: 12px; font-weight: 800; background: #e2e8f0; color: #334155; }
+.badge.APPROVED, .badge.IMPORTED { background: #dbeafe; color: #1d4ed8; }
+.badge.INPROCESS { background: #fef3c7; color: #92400e; }
+.badge.COMPLETED { background: #dcfce7; color: #166534; }
+.badge.NEW { background: #f1f5f9; color: #334155; }
+.badge.NOTFOUND, .badge.DELETED { background: #fee2e2; color: #991b1b; }
+.toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.notice { padding: 12px 14px; border-radius: 14px; background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+.error { padding: 12px 14px; border-radius: 14px; background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+.login-wrap { min-height: 100vh; display: grid; place-items: center; padding: 20px; background: radial-gradient(circle at top left, #dbeafe, transparent 30%), var(--bg); }
+.login-card { width: min(460px, 100%); }
+@media (max-width: 900px) {
+  .shell { grid-template-columns: 1fr; }
+  .sidebar { position: static; height: auto; }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .main { padding: 18px; }
+}

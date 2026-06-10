@@ -1,0 +1,12 @@
+{
+  "name": "Inventory Scanner",
+  "short_name": "InventoryScan",
+  "description": "Scanner PWA cho Inventory - Kiểm kê thời đại mới",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#2563eb",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
