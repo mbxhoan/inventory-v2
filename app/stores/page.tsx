@@ -89,7 +89,7 @@ export default function StoresPage() {
         title="Cửa hàng & vị trí"
         description="Quản lý địa điểm kiểm kê và các vị trí/kệ quét."
         action={
-          <div className="toolbar">
+          <div className="stack-mobile">
             <button className="btn secondary" onClick={openSlot} disabled={!stores.length}><Plus size={16} /> Thêm vị trí</button>
             <button className="btn" onClick={openStore}><Plus size={16} /> Thêm cửa hàng</button>
           </div>
@@ -98,7 +98,32 @@ export default function StoresPage() {
 
       <div className="card">
         <h3>Danh sách cửa hàng</h3>
-        <div className="table-wrap">
+        <div className="record-list mobile-only" style={{ marginTop: 14 }}>
+          {stores.map((s) => (
+            <div key={s.id} className="record-card">
+              <div className="record-header">
+                <div className="record-title">
+                  <strong>{s.code}</strong>
+                  <span>{s.name}</span>
+                </div>
+              </div>
+              <div className="data-list">
+                <div className="data-item">
+                  <span className="data-item-label">Địa chỉ</span>
+                  <span className="data-item-value">{s.address || 'Chưa cập nhật'}</span>
+                </div>
+                <div className="data-item">
+                  <span className="data-item-label">Vị trí quét</span>
+                  <span className="data-item-value">
+                    {s.slots?.length ? s.slots.map((x) => `${x.code} - ${x.name}`).join(', ') : 'Chưa có vị trí'}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+          {!stores.length ? <div className="empty-state">Chưa có cửa hàng nào. Thêm cửa hàng đầu tiên để bắt đầu.</div> : null}
+        </div>
+        <div className="table-wrap desktop-only" style={{ marginTop: 14 }}>
           <table>
             <thead><tr><th>Mã</th><th>Tên</th><th>Địa chỉ</th><th>Vị trí</th></tr></thead>
             <tbody>

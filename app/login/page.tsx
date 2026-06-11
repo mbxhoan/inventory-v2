@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { LogIn } from 'lucide-react';
@@ -29,8 +30,8 @@ export default function LoginPage() {
   return (
     <div className="login-wrap">
       <form className="card login-card grid" onSubmit={submit}>
-        <div className="page-title" style={{ textAlign: 'center' }}>
-          <img src="/banner.png" alt="Inventory" className="login-banner" />
+        <div className="page-title login-title">
+          <Image src="/banner.png" alt="Inventory" className="login-banner" width={220} height={88} priority />
           <p>Đăng nhập web quản lý.</p>
         </div>
         {error ? <div className="error">{error}</div> : null}

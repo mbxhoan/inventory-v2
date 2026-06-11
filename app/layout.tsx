@@ -1,7 +1,7 @@
 import './globals.css';
 import Providers from './providers';
 
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 
 export const metadata: Metadata = {
   title: 'Inventory - Kiểm kê thời đại mới',
@@ -19,6 +19,12 @@ export const metadata: Metadata = {
     title: 'Inventory - Kiểm kê thời đại mới',
     description: 'Tạo phiếu, import sổ sách, đối soát chênh lệch và quét tồn kho bằng scanner PDA.'
   }
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover'
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

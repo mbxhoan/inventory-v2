@@ -21,7 +21,7 @@ export default function ReportsPage() {
   return (
     <Shell>
       <PageHeader title="Báo cáo chênh lệch" description="Xem nhanh hàng lệch, thiếu, dư hoặc ngoài danh mục." />
-      <div className="card grid" style={{ marginBottom: 16 }}>
+      <div className="card grid">
         <label className="label">Chọn phiếu
           <select className="select" value={selected} onChange={(e) => setSelected(e.target.value)}>
             <option value="">Chọn phiếu kiểm kê</option>
@@ -29,15 +29,55 @@ export default function ReportsPage() {
           </select>
         </label>
       </div>
-      {detail ? <div className="card">
-        <h3>{detail.ticket.code} - {detail.ticket.name} <StatusBadge status={detail.ticket.status} /></h3>
-        <div className="table-wrap">
-          <table>
-            <thead><tr><th>Barcode</th><th>Tên hàng</th><th>Sổ sách</th><th>Thực tế</th><th>Lệch</th><th>Trạng thái</th></tr></thead>
-            <tbody>{rows.map((r: any) => <tr key={r.id}><td>{r.barcode}</td><td>{r.product_name}</td><td>{formatNumber(r.ori_qty)}</td><td>{formatNumber(r.real_qty)}</td><td>{formatNumber(r.diff_qty)}</td><td><StatusBadge status={r.status} /></td></tr>)}</tbody>
-          </table>
+      {detail ? (
+        <div className="card grid">
+          <div className="record-header">
+            <div className="record-title">
+              <strong>{detail.ticket.code}</strong>
+              <span>{detail.ticket.name}</span>
+            </div>
+            <StatusBadge status={detail.ticket.status} />
+          </div>
+          <div className="notice">Tổng {formatNumber(rows.length)} dòng có chênh lệch hoặc ngoài danh mục.</div>
+          <div className="record-list mobile-only">
+            {rows.map((r: any) => (
+              <div key={r.id} className="record-card">
+                <div className="record-header">
+                  <div className="record-title">
+                    <strong>{r.barcode}</strong>
+                    <span>{r.product_name || 'Chưa có tên hàng'}</span>
+                  </div>
+                  <StatusBadge status={r.status} />
+                </div>
+                <div className="data-list">
+                  <div className="data-item">
+                    <span className="data-item-label">Sổ sách</span>
+                    <span className="data-item-value">{formatNumber(r.ori_qty)}</span>
+                  </div>
+                  <div className="data-item">
+                    <span className="data-item-label">Thực tế</span>
+                    <span className="data-item-value">{formatNumber(r.real_qty)}</span>
+                  </div>
+                  <div className="data-item">
+                    <span className="data-item-label">Lệch</span>
+                    <span className="data-item-value">{formatNumber(r.diff_qty)}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+            {rows.length === 0 ? <div className="empty-state">Không có chênh lệch nào trong phiếu này.</div> : null}
+          </div>
+          <div className="table-wrap desktop-only">
+            <table>
+              <thead><tr><th>Barcode</th><th>Tên hàng</th><th>Sổ sách</th><th>Thực tế</th><th>Lệch</th><th>Trạng thái</th></tr></thead>
+              <tbody>
+                {rows.map((r: any) => <tr key={r.id}><td>{r.barcode}</td><td>{r.product_name}</td><td>{formatNumber(r.ori_qty)}</td><td>{formatNumber(r.real_qty)}</td><td>{formatNumber(r.diff_qty)}</td><td><StatusBadge status={r.status} /></td></tr>)}
+                {rows.length === 0 ? <tr><td colSpan={6} className="muted">Không có chênh lệch nào trong phiếu này.</td></tr> : null}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div> : null}
+      ) : null}
     </Shell>
   );
 }

@@ -129,24 +129,29 @@ export default function TicketDetailPage() {
         action={<StatusBadge status={ticket.status} />}
       />
 
-      <div className="card toolbar" style={{ marginBottom: 14 }}>
-        <button className="btn secondary sm" onClick={() => (location.href = '/tickets')}><ArrowLeft size={14} /> Quay lại</button>
-        <button className="btn sm" disabled={loading || !['NEW', 'IMPORTED', 'REOPEN'].includes(ticket.status)} onClick={() => action('approve')}><CheckCircle2 size={14} /> Xác nhận cho PDA scan</button>
-        <button className="btn success sm" disabled={loading || pendingSync || !['APPROVED', 'INPROCESS', 'REOPEN'].includes(ticket.status)} onClick={() => action('complete')}><Flag size={14} /> Hoàn tất kiểm kê</button>
+      <div className="card grid">
+        <div className="stack-mobile">
+          <button className="btn secondary" onClick={() => (location.href = '/tickets')}><ArrowLeft size={16} /> Quay lại danh sách</button>
+          <button className="btn" disabled={loading || !['NEW', 'IMPORTED', 'REOPEN'].includes(ticket.status)} onClick={() => action('approve')}><CheckCircle2 size={16} /> Xác nhận cho PDA scan</button>
+          <button className="btn success" disabled={loading || pendingSync || !['APPROVED', 'INPROCESS', 'REOPEN'].includes(ticket.status)} onClick={() => action('complete')}><Flag size={16} /> Hoàn tất kiểm kê</button>
+        </div>
         {pendingSync ? <span className="notice">Còn batch PDA đang xử lý, tạm khóa hoàn tất.</span> : null}
       </div>
 
-      <div className="grid grid-4" style={{ marginBottom: 14 }}>
+      <div className="kpi-grid">
         <div className="card stat"><span>Dòng hàng</span><strong>{formatNumber(data.stats?.total_items)}</strong></div>
         <div className="card stat"><span>SL sổ sách</span><strong>{formatNumber(data.stats?.total_ori_qty)}</strong></div>
         <div className="card stat"><span>SL thực tế</span><strong>{formatNumber(data.stats?.total_real_qty)}</strong></div>
         <div className="card stat"><span>Dòng lệch</span><strong>{formatNumber(data.stats?.discrepancy_items)}</strong></div>
       </div>
 
-      <div className="card grid" style={{ marginBottom: 14 }}>
-        <div className="toolbar" style={{ justifyContent: 'space-between' }}>
-          <h3 style={{ margin: 0 }}>Import sổ sách Excel/CSV</h3>
-          <div className="toolbar">
+      <div className="card grid">
+        <div className="page-header">
+          <div className="page-title">
+            <h3>Import sổ sách Excel/CSV</h3>
+            <p>Tự đọc cột, rà lỗi trước khi nạp và giữ layout an toàn trên mobile.</p>
+          </div>
+          <div className="stack-mobile">
             <button className="btn secondary sm" onClick={() => setShowGuide((v) => !v)}><Info size={14} /> {showGuide ? 'Ẩn hướng dẫn' : 'Hướng dẫn'}</button>
             <button className="btn secondary sm" onClick={() => downloadTemplate()}><Download size={14} /> Tải template</button>
           </div>
@@ -182,7 +187,7 @@ export default function TicketDetailPage() {
         {headers.length ? (
           <>
             <div className="toolbar muted"><FileSpreadsheet size={15} /> {fileName} • {formatNumber(parsedRows.length)} dòng dữ liệu</div>
-            <div className="grid grid-4">
+            <div className="form-grid four-up compact">
               {IMPORT_COLUMNS.map((c) => (
                 <label key={c.key} className="label">{c.label}{c.required ? ' *' : ''}
                   <select className={`select ${c.required && (mapping as any)[c.key] < 0 ? 'invalid' : ''}`} value={(mapping as any)[c.key]} onChange={(e) => setMapping({ ...mapping, [c.key]: Number(e.target.value) })}>
@@ -198,7 +203,7 @@ export default function TicketDetailPage() {
             ) : errors.length ? (
               <div className="grid" style={{ gap: 8 }}>
                 <div className="error">Phát hiện {errors.length} lỗi. Vui lòng sửa file và nạp lại trước khi import.</div>
-                <div className="table-wrap" style={{ maxHeight: 280, overflowY: 'auto' }}>
+                <div className="table-wrap" style={{ maxHeight: 320, overflowY: 'auto' }}>
                   <table>
                     <thead><tr><th>Dòng</th><th>Cột</th><th>Giá trị</th><th>Lỗi</th></tr></thead>
                     <tbody>
@@ -219,9 +224,9 @@ export default function TicketDetailPage() {
               <div className="notice">File hợp lệ. Sẵn sàng nạp {formatNumber(importRows.length)} dòng.</div>
             )}
 
-            <div className="toolbar">
-              <button className="btn secondary sm" onClick={resetImport} disabled={loading}>Hủy file</button>
-              <button className="btn sm" disabled={loading || mapping.barcode < 0 || errors.length > 0 || !importRows.length} onClick={doImport}>
+            <div className="stack-mobile">
+              <button className="btn secondary" onClick={resetImport} disabled={loading}>Hủy file</button>
+              <button className="btn" disabled={loading || mapping.barcode < 0 || errors.length > 0 || !importRows.length} onClick={doImport}>
                 <Upload size={14} /> Nạp {formatNumber(importRows.length)} dòng
               </button>
             </div>
@@ -233,7 +238,34 @@ export default function TicketDetailPage() {
 
       <div className="card">
         <h3>Hàng hóa đối soát</h3>
-        <div className="table-wrap">
+        <div className="record-list mobile-only" style={{ marginTop: 14 }}>
+          {data.inventories.length ? data.inventories.map((r: any) => (
+            <div key={r.id} className="record-card">
+              <div className="record-header">
+                <div className="record-title">
+                  <strong>{r.barcode}</strong>
+                  <span>{r.product_name || 'Chưa có tên hàng'} {r.sku ? `• ${r.sku}` : ''}</span>
+                </div>
+                <StatusBadge status={r.status} />
+              </div>
+              <div className="data-list">
+                <div className="data-item">
+                  <span className="data-item-label">Sổ sách</span>
+                  <span className="data-item-value">{formatNumber(r.ori_qty)}</span>
+                </div>
+                <div className="data-item">
+                  <span className="data-item-label">Thực tế</span>
+                  <span className="data-item-value">{formatNumber(r.real_qty)}</span>
+                </div>
+                <div className="data-item">
+                  <span className="data-item-label">Lệch</span>
+                  <span className="data-item-value">{formatNumber(r.diff_qty)}</span>
+                </div>
+              </div>
+            </div>
+          )) : <div className="empty-state">Chưa có dữ liệu hàng hóa.</div>}
+        </div>
+        <div className="table-wrap desktop-only" style={{ marginTop: 14 }}>
           <table>
             <thead><tr><th>Barcode</th><th>SKU</th><th>Tên hàng</th><th>Sổ sách</th><th>Thực tế</th><th>Lệch</th><th>Trạng thái</th></tr></thead>
             <tbody>

@@ -73,7 +73,41 @@ export default function TicketsPage() {
 
       <div className="card">
         <h3>Danh sách phiếu</h3>
-        <div className="table-wrap">
+        <div className="record-list mobile-only" style={{ marginTop: 14 }}>
+          {tickets.map((t) => {
+            const stats = Array.isArray(t.v_ticket_stats) ? t.v_ticket_stats[0] : null;
+            return (
+              <div key={t.id} className="record-card">
+                <div className="record-header">
+                  <div className="record-title">
+                    <strong>{t.code}</strong>
+                    <span>{t.name}</span>
+                  </div>
+                  <StatusBadge status={t.status} />
+                </div>
+                <div className="data-list">
+                  <div className="data-item">
+                    <span className="data-item-label">Cửa hàng</span>
+                    <span className="data-item-value">{t.stores?.name || 'Chưa gán'}</span>
+                  </div>
+                  <div className="data-item">
+                    <span className="data-item-label">Dòng hàng</span>
+                    <span className="data-item-value">{formatNumber(stats?.total_items)}</span>
+                  </div>
+                  <div className="data-item">
+                    <span className="data-item-label">Dòng lệch</span>
+                    <span className="data-item-value">{formatNumber(stats?.discrepancy_items)}</span>
+                  </div>
+                </div>
+                <div className="record-actions">
+                  <Link className="btn secondary" href={`/tickets/${t.id}`}>Mở chi tiết</Link>
+                </div>
+              </div>
+            );
+          })}
+          {!tickets.length ? <div className="empty-state">Chưa có phiếu nào. Tạo phiếu mới để bắt đầu import và đối soát.</div> : null}
+        </div>
+        <div className="table-wrap desktop-only" style={{ marginTop: 14 }}>
           <table>
             <thead><tr><th>Mã</th><th>Tên</th><th>Cửa hàng</th><th>Trạng thái</th><th>Dòng hàng</th><th>Chênh lệch</th><th></th></tr></thead>
             <tbody>

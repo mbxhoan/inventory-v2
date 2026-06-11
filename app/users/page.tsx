@@ -7,7 +7,7 @@ import PageHeader from '@/components/PageHeader';
 import Drawer from '@/components/Drawer';
 import { useToast } from '@/components/Toast';
 import { apiJson } from '@/lib/api';
-import { ROLES_BY_TYPE, USER_TYPES, ROLE_LABELS, validateUserPayload, type AppUser, type UserType } from '@/lib/users';
+import { ROLES_BY_TYPE, USER_TYPES, ROLE_LABELS, type AppUser, type UserType } from '@/lib/users';
 
 type Me = { id: string; role: string } | null;
 
@@ -132,7 +132,42 @@ export default function UsersPage() {
 
       <div className="card">
         <h3>Danh sách người dùng</h3>
-        <div className="table-wrap">
+        <div className="record-list mobile-only" style={{ marginTop: 14 }}>
+          {users.map((u) => (
+            <div key={u.id} className="record-card">
+              <div className="record-header">
+                <div className="record-title">
+                  <strong>{u.full_name}{me?.id === u.id ? ' (bạn)' : ''}</strong>
+                  <span>{u.email}</span>
+                </div>
+                <span className="badge">{u.user_type}</span>
+              </div>
+              <div className="data-list">
+                <div className="data-item">
+                  <span className="data-item-label">Vai trò</span>
+                  <span className="data-item-value">{ROLE_LABELS[u.role] || u.role}</span>
+                </div>
+                <div className="data-item">
+                  <span className="data-item-label">Trạng thái</span>
+                  <span className="data-item-value">{u.is_active ? 'Hoạt động' : 'Vô hiệu'}</span>
+                </div>
+              </div>
+              <div className="stack" style={{ gap: 12 }}>
+                <label className="switch">
+                  <input type="checkbox" checked={u.is_active} disabled={me?.id === u.id} onChange={() => toggleActive(u)} />
+                  <span className="track" />
+                  {u.is_active ? 'Đang hoạt động' : 'Đang vô hiệu'}
+                </label>
+                <div className="record-actions">
+                  <button className="btn secondary" onClick={() => openEdit(u)}><Pencil size={14} /> Sửa</button>
+                  <button className="btn danger" onClick={() => remove(u)} disabled={me?.id === u.id}><Trash2 size={14} /> Vô hiệu</button>
+                </div>
+              </div>
+            </div>
+          ))}
+          {!users.length ? <div className="empty-state">Chưa có người dùng nào.</div> : null}
+        </div>
+        <div className="table-wrap desktop-only" style={{ marginTop: 14 }}>
           <table>
             <thead><tr><th>Họ tên</th><th>Email</th><th>Loại</th><th>Vai trò</th><th>Trạng thái</th><th></th></tr></thead>
             <tbody>
