@@ -2,13 +2,13 @@ import { NextResponse } from 'next/server';
 import { requireSession } from '@/lib/session';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 
-type Ctx = { params: { id: string } };
+type Ctx = { params: Promise<{ id: string }> };
 
 export async function GET(_: Request, { params }: Ctx) {
   try {
     const session = await requireSession(['ADMIN','WEB']);
     const db = supabaseAdmin();
-    const id = params.id;
+    const { id } = await params;
 
     const [ticketRes, inventoryRes, detailRes, syncRes, statsRes] = await Promise.all([
       db.from('tickets').select('*, stores(name,code), slots(name,code)').eq('id', id).eq('company_id', session.company_id).single(),
@@ -34,13 +34,14 @@ export async function GET(_: Request, { params }: Ctx) {
 export async function PATCH(req: Request, { params }: Ctx) {
   try {
     const session = await requireSession(['WEB']);
+    const { id } = await params;
     const body = await req.json();
     const allowed: Record<string, any> = {};
     for (const key of ['name','note']) if (key in body) allowed[key] = body[key];
     const { data, error } = await supabaseAdmin()
       .from('tickets')
       .update(allowed)
-      .eq('id', params.id)
+      .eq('id', id)
       .eq('company_id', session.company_id)
       .select()
       .single();

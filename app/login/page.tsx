@@ -6,7 +6,7 @@ import { apiJson } from '@/lib/api';
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState('manager@inventory.local');
+  const [email, setEmail] = useState('admin@ttvn.vn');
   const [pin, setPin] = useState('123456');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -40,7 +40,7 @@ export default function LoginPage() {
           <input className="input" type="password" value={pin} onChange={(e) => setPin(e.target.value)} />
         </label>
         <button className="btn" disabled={loading}>{loading ? 'Đang đăng nhập...' : 'Đăng nhập'}</button>
-        <div className="notice">Demo: manager@inventory.local / 123456</div>
+        <div className="notice">Demo: admin@ttvn.vn / 123456</div>
       </form>
     </div>
   );

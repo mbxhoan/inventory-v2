@@ -59,6 +59,15 @@ export async function requireSession(allowed?: Array<AppSession['user_type']>) {
   return session;
 }
 
+export const USER_ADMIN_ROLES = ['system_admin', 'tenant_admin'];
+
+// Chỉ admin công ty (tenant_admin) hoặc system_admin được quản lý user.
+export async function requireUserAdmin() {
+  const session = await requireSession(['ADMIN', 'WEB']);
+  if (!USER_ADMIN_ROLES.includes(session.role)) throw new Error('FORBIDDEN');
+  return session;
+}
+
 export async function clearSession() {
   const jar = await cookies();
   jar.delete(cookieName);
