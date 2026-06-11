@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { LogIn } from 'lucide-react';
 import { apiJson } from '@/lib/api';
 
 export default function LoginPage() {
@@ -28,9 +29,9 @@ export default function LoginPage() {
   return (
     <div className="login-wrap">
       <form className="card login-card grid" onSubmit={submit}>
-        <div className="page-title">
-          <h1>Inventory</h1>
-          <p>Kiểm kê thời đại mới — đăng nhập web quản lý.</p>
+        <div className="page-title" style={{ textAlign: 'center' }}>
+          <img src="/banner.png" alt="Inventory" className="login-banner" />
+          <p>Đăng nhập web quản lý.</p>
         </div>
         {error ? <div className="error">{error}</div> : null}
         <label className="label">Email
@@ -39,7 +40,7 @@ export default function LoginPage() {
         <label className="label">Mã PIN
           <input className="input" type="password" value={pin} onChange={(e) => setPin(e.target.value)} />
         </label>
-        <button className="btn" disabled={loading}>{loading ? 'Đang đăng nhập...' : 'Đăng nhập'}</button>
+        <button className="btn" disabled={loading}><LogIn size={15} /> {loading ? 'Đang đăng nhập…' : 'Đăng nhập'}</button>
         <div className="notice">Demo: admin@ttvn.vn / 123456</div>
       </form>
     </div>

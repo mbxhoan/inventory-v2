@@ -35,7 +35,10 @@ export default function Shell({ children }: { children: React.ReactNode }) {
     <div className="shell">
       <aside className="sidebar">
         <div className="brand">
-          Inventory
+          <span className="brand-row">
+            <img src="/logo.png" alt="Inventory" className="brand-chip" />
+            Inventory
+          </span>
           <span>Kiểm kê thời đại mới</span>
         </div>
         <nav className="nav">

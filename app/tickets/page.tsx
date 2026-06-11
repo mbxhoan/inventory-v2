@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { Plus } from 'lucide-react';
+import { Plus, X } from 'lucide-react';
 import Shell from '@/components/Shell';
 import PageHeader from '@/components/PageHeader';
 import Drawer from '@/components/Drawer';
@@ -103,8 +103,8 @@ export default function TicketsPage() {
         description="Khởi tạo phiếu mới cho cửa hàng/vị trí."
         footer={
           <>
-            <button className="btn secondary" onClick={() => setOpen(false)} disabled={saving}>Hủy</button>
-            <button className="btn" onClick={createTicket} disabled={saving}>{saving ? 'Đang tạo…' : 'Tạo phiếu'}</button>
+            <button className="btn secondary sm" onClick={() => setOpen(false)} disabled={saving}><X size={14} /> Hủy</button>
+            <button className="btn sm" onClick={createTicket} disabled={saving}><Plus size={14} /> {saving ? 'Đang tạo…' : 'Tạo phiếu'}</button>
           </>
         }
       >
@@ -129,10 +129,10 @@ export default function TicketsPage() {
             {selectedStore?.slots?.map((s) => <option key={s.id} value={s.id}>{s.code} - {s.name}</option>)}
           </select>
         </label>
-        <label className="label">Có dữ liệu sổ sách?
+        <label className="label">Dữ liệu đầu vào
           <select className="select" value={String(form.has_book_data)} onChange={(e) => setForm({ ...form, has_book_data: e.target.value === 'true' })}>
-            <option value="true">Có, cần import</option>
-            <option value="false">Không, cho PDA scan ngay</option>
+            <option value="true">Có dữ liệu đầu vào (import file Excel trước)</option>
+            <option value="false">Không có dữ liệu đầu vào (tạo phiếu scan ghi nhận luôn)</option>
           </select>
         </label>
       </Drawer>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Plus, Pencil, Trash2 } from 'lucide-react';
+import { Plus, Pencil, Trash2, Save, X } from 'lucide-react';
 import Shell from '@/components/Shell';
 import PageHeader from '@/components/PageHeader';
 import Drawer from '@/components/Drawer';
@@ -169,8 +169,8 @@ export default function UsersPage() {
         description={editing ? 'Cập nhật hồ sơ, vai trò, mã PIN.' : 'Tạo tài khoản web hoặc scanner PDA.'}
         footer={
           <>
-            <button className="btn secondary" onClick={() => setOpen(false)} disabled={saving}>Hủy</button>
-            <button className="btn" onClick={save} disabled={saving}>{saving ? 'Đang lưu…' : 'Lưu'}</button>
+            <button className="btn secondary sm" onClick={() => setOpen(false)} disabled={saving}><X size={14} /> Hủy</button>
+            <button className="btn sm" onClick={save} disabled={saving}><Save size={14} /> {saving ? 'Đang lưu…' : 'Lưu'}</button>
           </>
         }
       >

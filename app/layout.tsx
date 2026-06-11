@@ -1,9 +1,24 @@
 import './globals.css';
 import Providers from './providers';
 
-export const metadata = {
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
   title: 'Inventory - Kiểm kê thời đại mới',
-  description: 'SaaS kiểm kê đa công ty với scanner PWA'
+  description: 'Hệ thống kiểm kê đa công ty: tạo phiếu, import sổ sách, đối soát chênh lệch và quét tồn kho bằng scanner PDA.',
+  applicationName: 'Inventory',
+  openGraph: {
+    title: 'Inventory - Kiểm kê thời đại mới',
+    description: 'Tạo phiếu, import sổ sách, đối soát chênh lệch và quét tồn kho bằng scanner PDA.',
+    type: 'website',
+    locale: 'vi_VN',
+    siteName: 'Inventory'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Inventory - Kiểm kê thời đại mới',
+    description: 'Tạo phiếu, import sổ sách, đối soát chênh lệch và quét tồn kho bằng scanner PDA.'
+  }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

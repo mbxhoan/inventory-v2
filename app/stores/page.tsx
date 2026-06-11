@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Plus } from 'lucide-react';
+import { Plus, Save, X } from 'lucide-react';
 import Shell from '@/components/Shell';
 import PageHeader from '@/components/PageHeader';
 import Drawer from '@/components/Drawer';
@@ -122,8 +122,8 @@ export default function StoresPage() {
         description="Tạo địa điểm kiểm kê mới."
         footer={
           <>
-            <button className="btn secondary" onClick={() => setStoreOpen(false)} disabled={saving}>Hủy</button>
-            <button className="btn" onClick={createStore} disabled={saving}>{saving ? 'Đang lưu…' : 'Lưu cửa hàng'}</button>
+            <button className="btn secondary sm" onClick={() => setStoreOpen(false)} disabled={saving}><X size={14} /> Hủy</button>
+            <button className="btn sm" onClick={createStore} disabled={saving}><Save size={14} /> {saving ? 'Đang lưu…' : 'Lưu cửa hàng'}</button>
           </>
         }
       >
@@ -147,8 +147,8 @@ export default function StoresPage() {
         description="Kệ/vị trí trong cửa hàng để PDA quét."
         footer={
           <>
-            <button className="btn secondary" onClick={() => setSlotOpen(false)} disabled={saving}>Hủy</button>
-            <button className="btn" onClick={createSlot} disabled={saving}>{saving ? 'Đang lưu…' : 'Lưu vị trí'}</button>
+            <button className="btn secondary sm" onClick={() => setSlotOpen(false)} disabled={saving}><X size={14} /> Hủy</button>
+            <button className="btn sm" onClick={createSlot} disabled={saving}><Save size={14} /> {saving ? 'Đang lưu…' : 'Lưu vị trí'}</button>
           </>
         }
       >
